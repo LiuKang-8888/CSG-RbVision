@@ -1,0 +1,33 @@
+---
+description: CSG-RbVision 项目总览与分层约定
+alwaysApply: true
+---
+
+# CSG-RbVision
+
+工业视觉检测平台。.NET 8、C#、WPF、OpenCvSharp4、x64。
+
+## 解决方案结构
+
+| 项目 | 职责 |
+|------|------|
+| Core | 接口、注册中心、运行时 |
+| Shared | 常量、枚举、扩展、工具 |
+| Hardware | 相机 / 光源 / IO |
+| ImageProcessing | OpenCV 封装 |
+| Algorithm | 定位 / 匹配 / 测量 / 检测 |
+| Business | 任务 / 工作流 / 配方 |
+| Communication | MES / Modbus / 串口 / MQTT |
+| Data | EF Core |
+| UI.WPF | MVVM 界面 |
+| Tests | xUnit + Moq |
+
+## 硬性约定
+
+- 命名空间与程序集：`CSG.RbVision.*`
+- 类库 TFM：`net8.0`；UI/Tests：`net8.0-windows`
+- 平台：`x64`（见 `Directory.Build.props`）
+- **接口先于实现**；按模块逐步交付，禁止一次生成整层业务
+- 涉及非托管资源的类型必须实现 `IDisposable` / `IAsyncDisposable`
+- 变更保持最小范围；不擅自新增文档/README，除非用户要求
+---

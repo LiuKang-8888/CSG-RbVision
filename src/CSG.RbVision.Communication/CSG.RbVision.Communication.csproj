@@ -1,13 +1,17 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <RootNamespace>CSG.RbVision.Communication</RootNamespace>
+    <AssemblyName>CSG.RbVision.Communication</AssemblyName>
+    <Platforms>x64</Platforms>
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\CSG.RbVision.Core\CSG.RbVision.Core.csproj" />
   </ItemGroup>
-
-  <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
-
+  <ItemGroup>
+    <PackageReference Include="MQTTnet" Version="4.3.7.1207" />
+    <PackageReference Include="NModbus4" Version="2.1.0" />
+    <PackageReference Include="System.IO.Ports" Version="8.0.0" />
+  </ItemGroup>
 </Project>

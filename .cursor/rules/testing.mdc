@@ -1,0 +1,14 @@
+---
+description: 测试项目约定
+globs: "**/CSG.RbVision.Tests/**/*.cs"
+alwaysApply: false
+---
+
+# Tests 约定
+
+- 框架：xUnit + Moq + FluentAssertions
+- 优先测：接口契约、对象池/内存释放、MockCamera 采集稳定性
+- 涉及 `Mat`/`ImageData` 的测试必须断言资源释放或使用 `using`
+- 不依赖真实相机也能跑的测试放默认集；硬件测试单独标记/跳过
+- 保持包版本无已知漏洞（Moq ≥ 4.20.2）
+---

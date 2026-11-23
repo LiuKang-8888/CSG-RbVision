@@ -1,0 +1,57 @@
+---
+description: C# 视觉软件安全编码（内存、线程、异常）
+globs: "**/*.cs"
+alwaysApply: false
+---
+
+# C# 安全约定
+
+## Mat / 非托管资源
+
+```csharp
+// ❌ 泄漏
+var img = Cv2.ImRead(path);
+Cv2.GaussianBlur(img, dst, new Size(5, 5), 0);
+
+// ✅
+using var img = Cv2.ImRead(path);
+using var dst = new Mat();
+Cv2.GaussianBlur(img, dst, new Size(5, 5), 0);
+```
+
+- 循环内避免反复 `new Mat()`；优先对象池或预分配
+- 大图（>1MB）优先 `Span<T>` / 指针路径（已开 `AllowUnsafeBlocks`）
+
+## 相机回调
+
+```csharp
+// ❌ 回调里做耗时处理
+camera.ImageGrabbed += (s, e) => Process(e.Image);
+
+// ✅ 只复制并入队
+camera.ImageGrabbed += (s, e) =>
+{
+    var copy = e.Image.Clone();
+    _ = _imageChannel.Writer.TryWrite(copy);
+};
+```
+
+## UI 线程
+
+```csharp
+// ❌ UI 线程重计算
+private void OnClick(...) => HeavyProcess();
+
+// ✅
+private async void OnClick(...)
+{
+    var result = await Task.Run(HeavyProcess);
+    await Dispatcher.InvokeAsync(() => Show(result));
+}
+```
+
+## 其他
+
+- 启用可空引用；公开 API 写清空性
+- 相机/通信必须处理断线、超时、取消（`CancellationToken`）
+---

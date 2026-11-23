@@ -1,0 +1,31 @@
+---
+description: 硬件层相机/光源/IO 实现约定
+globs: "**/CSG.RbVision.Hardware/**/*.cs"
+alwaysApply: false
+---
+
+# Hardware 约定
+
+## 结构
+
+- `Camera/`：`ICamera` 实现、Factory、Mock
+- `LightController/`：光源
+- `IOController/`：DI/DO
+
+## 必须
+
+1. 实现 Core 中的接口，不另起平行抽象
+2. 回调中只做**拷贝 + 非阻塞入队**（`Channel<T>` / `ConcurrentQueue<T>`）
+3. 处理断线重连、超时、错误码；资源在 `Dispose` 中释放
+4. 无硬件时用 `MockCamera` 读 `TestData/Images`，可模拟采集延迟
+
+## 禁止
+
+- 在采集回调中跑算法或写 UI
+- 忽略 GrabResult / SDK 句柄释放
+- 把厂商类型泄漏到 Business / UI
+
+## 工厂
+
+通过 `CameraFactory`（或 DI）按类型名注册 Mock / Basler / Hikvision，便于扩展。
+---

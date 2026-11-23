@@ -1,0 +1,28 @@
+---
+description: WPF MVVM 与 UI 线程约定
+globs: "**/CSG.RbVision.UI.WPF/**/*.{cs,xaml}"
+alwaysApply: false
+---
+
+# UI.WPF 约定
+
+## MVVM
+
+- ViewModel **不**直接依赖 View / 控件
+- 使用 CommunityToolkit.Mvvm / Prism 现有模式，保持一致
+- 业务调用走 Business / Core 服务，不在 code-behind 写算法
+
+## 图像显示
+
+- 显示用 `WriteableBitmap`（或项目既定控件）
+- 像素转换在**后台线程**；回 UI 用 `Dispatcher.InvokeAsync`（避免 `Invoke` 死锁）
+
+## 交互
+
+- 耗时操作全部 `async` + `Task.Run` / 服务异步 API
+- 长任务支持取消与忙状态绑定
+
+## 主题
+
+- UI 主题包：ModernWpfUI（勿擅自换回不可用的 MahApps 3.0）
+---

@@ -1,0 +1,28 @@
+---
+description: Core 接口与模型定义约定
+globs: "**/CSG.RbVision.Core/**/*.cs"
+alwaysApply: false
+---
+
+# Core 接口约定
+
+目录：`Interfaces/`、`Models/`、`Registration/`、`Runtime/`。
+
+## 原则
+
+1. **只定契约，不写硬件/算法实现**（实现在 Hardware / Algorithm）
+2. 硬件相关接口放 `Interfaces/`：`ICamera`、`ILightController`、`IIOController`
+3. 算法契约：`IVisionAlgorithm`（建议 `IDisposable` + `ExecuteAsync` + `CancellationToken`）
+4. Day 3 再完善 `ImageData` / `Result<T>`；接口可先引用这些类型，避免泄露 `Mat` 到业务层
+
+## 接口签名偏好
+
+- 异步优先：`ConnectAsync` / `GrabAsync` / `ExecuteAsync`
+- 状态可观察：连接/断线事件或状态属性
+- 生命周期清晰：`Connect`/`Disconnect` 或 `Dispose`
+
+## 禁止
+
+- 在 Core 中引用厂商 SDK、OpenCvSharp 具体类型（除 Shared/约定边界外）
+- 在接口文件中塞入 Mock 或具体适配器实现
+---

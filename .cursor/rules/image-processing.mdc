@@ -1,0 +1,30 @@
+---
+description: OpenCvSharp 图像处理与算法约定
+globs: "**/CSG.RbVision.ImageProcessing/**/*.cs,**/CSG.RbVision.Algorithm/**/*.cs"
+alwaysApply: false
+---
+
+# 图像处理 / 算法
+
+## Mat 生命周期
+
+- 所有 `Mat`：`using` 或明确 `Dispose`
+- 输出图所有权在文档/注释中写清（调用方释放还是返回方释放）
+- 临时缓冲优先 `MatPool` / 预分配，避免热路径分配
+
+## 算法模块
+
+- 实现 `IVisionAlgorithm`
+- `ExecuteAsync(context, ct)`；支持取消
+- 定位 / 匹配 / 测量 / 检测分目录，不互相硬耦合
+
+## 性能目标（参考）
+
+- 单张处理 < 500ms（按配方复杂度评估）
+- 连续运行关注内存：无 Mat 泄漏、无无界队列堆积
+
+## 禁止
+
+- 算法内直接操作 WPF 控件
+- 吞掉异常；应返回 `Result`/明确错误码
+---
