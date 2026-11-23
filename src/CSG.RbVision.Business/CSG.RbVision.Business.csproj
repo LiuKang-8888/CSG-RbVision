@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <ItemGroup>
+    <ProjectReference Include="..\CSG.RbVision.Core\CSG.RbVision.Core.csproj" />
+    <ProjectReference Include="..\CSG.RbVision.Algorithm\CSG.RbVision.Algorithm.csproj" />
+    <ProjectReference Include="..\CSG.RbVision.Hardware\CSG.RbVision.Hardware.csproj" />
+    <ProjectReference Include="..\CSG.RbVision.Data\CSG.RbVision.Data.csproj" />
+    <ProjectReference Include="..\CSG.RbVision.Communication\CSG.RbVision.Communication.csproj" />
+    <ProjectReference Include="..\CSG.RbVision.Configuration\CSG.RbVision.Configuration.csproj" />
+    <ProjectReference Include="..\CSG.RbVision.Logging\CSG.RbVision.Logging.csproj" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+</Project>
